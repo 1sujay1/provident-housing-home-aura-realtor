@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Pinnacle Residences | Luxury Real Estate</title>
+    <meta name="description" content="Discover The Pinnacle Residences, a premier luxury property offering unparalleled design, amenities, and location. Request pricing details and floor plans.">
+    <meta name="keywords" content="luxury real estate, premium property, modern apartments, The Pinnacle Residences, city living">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              scroll: {
+                '0%': { transform: 'translateX(0)' },
+                '100%': { transform: 'translateX(-50%)' },
+              },
+              pulse: {
+                '0%, 100%': { transform: 'scale(1)' },
+                '50%': { transform: 'scale(1.1)' },
+              },
+              'pop-in': {
+                '0%': { transform: 'scale(0.8)', opacity: '0' },
+                '100%': { transform: 'scale(1)', opacity: '1' },
+              }
+            },
+            animation: {
+              fadeIn: 'fadeIn 1s ease-out forwards',
+              scroll: 'scroll 60s linear infinite',
+              pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'pop-in': 'pop-in 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      :root {
+        --primary-color: #0d1a26;
+        --secondary-color: #f7f7f7;
+        --accent-color: #e4b363;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        overflow-x: hidden;
+      }
+
+      .hero-section {
+        background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('image/banner1.webp') no-repeat center center/cover;
+        min-height: 100vh;
+      }
+
+      .section-fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      }
+
+      .section-fade-in.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      .contact-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.75);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 50;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+      }
+
+      .contact-modal-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .contact-modal {
+        background-color: var(--primary-color);
+        border: 1px solid var(--accent-color);
+        max-width: 90%;
+        width: 500px;
+        position: relative;
+        transform: translateY(-20px);
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .contact-modal-overlay.show .contact-modal {
+        transform: translateY(0);
+      }
+
+      .message-box-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.75);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 60;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+      }
+
+      .message-box-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .message-box {
+        background-color: var(--primary-color);
+        border: 1px solid var(--accent-color);
+        max-width: 90%;
+        width: 400px;
+        position: relative;
+      }
+
+      .pricing-table-row:nth-child(even) {
+        background-color: rgba(228, 179, 99, 0.05);
+      }
+
+      .pricing-table-row:hover {
+          background-color: rgba(228, 179, 99, 0.2);
+          transform: scale(1.01);
+          transition: transform 0.2s ease-in-out;
+      }
+
+      /* Custom styles for the gallery carousel */
+      .carousel-container::-webkit-scrollbar {
+          height: 8px;
+      }
+
+      .carousel-container::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 10px;
+      }
+
+      .carousel-container::-webkit-scrollbar-thumb {
+          background: var(--accent-color);
+          border-radius: 10px;
+      }
+
+      .play-button {
+          transition: transform 0.3s ease-in-out;
+      }
+
+      .play-button:hover {
+          transform: scale(1.1);
+      }
+
+       .floating-btn-container {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 50;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      #top-btn {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+      }
+      
+      #top-btn.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* FAQ Styles */
+      .faq-item {
+          border-bottom: 1px solid rgba(228, 179, 99, 0.2);
+          padding-top: 1rem;
+          padding-bottom: 1rem;
+      }
+      .faq-question {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          text-align: left;
+          font-weight: 600;
+          font-size: 1.125rem;
+          color: white;
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+      }
+      .faq-question:hover {
+          color: var(--accent-color);
+      }
+      .faq-answer {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.3s ease-out;
+      }
+      .faq-answer.open {
+          max-height: 500px; /* A large enough value to allow smooth transition */
+      }
+      .faq-icon {
+          font-size: 1.5rem;
+          transition: transform 0.3s ease-in-out;
+      }
+      .faq-question[aria-expanded="true"] .faq-icon {
+          transform: rotate(45deg);
+      }
+    </style>
+    <!-- Schema.org Markup for RealEstateAgent -->
+    <script type="application/ld+json">
+     {
+  "@context": "https://schema.org",
+  "@type": "ApartmentComplex",
+  "name": "Sattva SimpliCity",
+  "url": "https://www.sattvasimplicity.com",
+  "telephone": "+91-9880779843",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "RR Nagar",
+    "addressLocality": "Bengaluru",
+    "addressRegion": "Karnataka",
+    "postalCode": "560098",
+    "addressCountry": "IN"
+  },
+  "description": "Sattva SimpliCity is a premium residential project in RR Nagar, Bengaluru, offering Studio and 1 BHK homes designed with modern comforts, excellent connectivity, and a vibrant lifestyle.",
+  "amenityFeature": [
+    {
+      "@type": "LocationFeatureSpecification",
+      "name": "Clubhouse",
+      "value": "Yes"
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      "name": "Swimming Pool",
+      "value": "Yes"
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      "name": "Gym & Fitness Center",
+      "value": "Yes"
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      "name": "Children’s Play Area",
+      "value": "Yes"
+    },
+    {
+      "@type": "LocationFeatureSpecification",
+      "name": "Landscaped Gardens",
+      "value": "Yes"
+    }
+  ],
+  "numberOfRooms": "Studio, 1 BHK",
+  "petsAllowed": "Yes"
+}
+    </script>
+</head>
+
+<body>
+    <!-- Sticky Navigation -->
+    <nav class="sticky top-0 z-40 bg-primary-color/90 backdrop-blur-md p-4 shadow-lg">
+      <div class="container mx-auto flex justify-between items-center">
+        <a href="#hero" class="text-lg font-bold text-accent-color">
+          <img src="image/logo.png" alt="The Pinnacle Residences Logo" class="h-8">
+        </a>
+        <div class="space-x-4 hidden md:flex">
+          <a href="#about" class="text-secondary-color hover:text-accent-color transition-colors">About Us</a>
+          <a href="#pricing" class="text-secondary-color hover:text-accent-color transition-colors">Pricing</a>
+          <a href="#amenities" class="text-secondary-color hover:text-accent-color transition-colors">Amenities</a>
+          <a href="#project-highlights" class="text-secondary-color hover:text-accent-color transition-colors">Highlights</a>
+          <a href="#floor-plans" class="text-secondary-color hover:text-accent-color transition-colors">Floor Plans</a>
+          <a href="#gallery" class="text-secondary-color hover:text-accent-color transition-colors">Gallery</a>
+          <a href="#faq" class="text-secondary-color hover:text-accent-color transition-colors">FAQs</a>
+          <a href="#location" class="text-secondary-color hover:text-accent-color transition-colors">Location</a>
+          <a href="#contact-us" class="text-secondary-color hover:text-accent-color transition-colors">Contact Us</a>
+        </div>
+        <button style="background-color:white; color:black" id="nav-contact-btn" class="bg-accent-color text-primary-color font-medium py-2 px-4 rounded-lg shadow-lg transition-all duration-300 hover:bg-opacity-80 hover:shadow-xl hover:scale-105">
+          For Enquiry
+        </button>
+      </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <header id="hero" class="hero-section flex items-center justify-center text-center px-4">
+      <div class="max-w-3xl animate-fadeIn">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-secondary-color leading-tight tracking-tight">
+          Provident
+          <br><span class="uppercase font-family-Playfair Display">Sunworth city</span>
+        </h1>
+        <p class="mt-4 text-xl md:text-2xl text-secondary-color font-light leading-relaxed">Where Every Sunrise Brings a Better Tomorrow</p>
+        <button style="background-color:white; color:black" id="hero-cta-btn" class="mt-8 bg-accent-color text-primary-color font-bold text-lg py-3 px-8 rounded-lg shadow-xl transition-all duration-300 hover:bg-opacity-80 hover:shadow-2xl hover:scale-105">
+          Get Pricing Details
+        </button>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-16">
+      <!-- About Us Section -->
+      <section id="about" class="py-16 section-fade-in">
+        <h2 class="text-4xl font-bold text-center text-accent-color">About PROVIDENT SUNWORTH CITY</h2>
+        <div class="mt-8 flex flex-col md:flex-row items-center gap-8">
+            <div class="md:w-1/2 w-full">
+                <img src="image/about.webp" alt="The modern facade of The Pinnacle Residences" class="rounded-xl shadow-lg w-full h-auto object-cover">
+            </div>
+            <div class="md:w-1/2 w-full">
+                <p style="text-align: justify;" class="text-lg leading-relaxed text-secondary-color">
+                  Located off Mysore Road-NICE Junction, Provident Sunworth City is the largest township in South Bengaluru, 
+                  sprawling over mammoth ~60 acres. Situated close to the Challaghatta metro station, a home here brings every convenience to your doorstep without any compromise on connectivity to the rest of Bengaluru. With 19 acres of dedicated green cover which encapsulate 7000 trees, behold the mesmerizing views of this green sanctuary with your loved ones.
+
+The offering of 2 & 3 BHK Homes at Provident Sunworth City are planned with minute attention to detail and functionality and comes with 50+ amenities to meet your fitness & recreational choices. The project boasts a Chrysalis High School and Retail-Commercial space within the premises, 
+to cater to all the residential & educational needs of a community.
+                </p><br>
+                <p>RERA NO. - PRM/KA/RERA/1251/310/PR/180724/006944</p>
+
+                <button style="background-color:white; color:black" class="mt-6 bg-accent-color text-primary-color font-medium py-3 px-6 rounded-lg w-full md:w-auto transition-all duration-300 hover:bg-opacity-80 hover:shadow-xl hover:scale-105 contact-cta">
+                    Schedule a Tour
+                </button>
+            </div>
+        </div>
+      </section>
+
+      <!-- Pricing Section -->
+      <section id="pricing" class="py-16 section-fade-in">
+        <h2 class="text-4xl font-bold text-center text-accent-color">Configuration & Pricing</h2>
+        <p class="mt-4 text-center max-w-2xl mx-auto text-lg leading-relaxed text-secondary-color">
+          Starting from attractive prices, designed for modern living.  
+        </p>
+        <div class="mt-12 overflow-x-auto">
+          <table class="w-full text-left table-auto border-collapse bg-primary-color rounded-xl shadow-lg">
+            <thead class="text-accent-color">
+              <tr class="animate-fadeIn">
+                <th class="p-4 border-b-2 border-accent-color text-center">Unit Type</th>
+                <th class="p-4 border-b-2 border-accent-color text-center">Area</th>
+                <th class="p-4 border-b-2 border-accent-color text-center">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="pricing-table-row">
+                <td class="p-4 border-b border-accent-color/20 text-center">
+                  <h3 class="font-semibold text-lg text-accent-color">2 BHK</h3>
+                </td>
+                <td class="p-4 border-b border-accent-color/20 text-center">883 Sq.ft</td>
+                <td class="p-4 border-b border-accent-color/20 text-center">Request for Pricing</td>
+              </tr>
+              <tr class="pricing-table-row">
+                <td class="p-4 border-b border-accent-color/20 text-center">
+                  <h3 class="font-semibold text-lg text-accent-color">3 BHK</h3>
+                </td>
+                <td class="p-4 border-b border-accent-color/20 text-center">1082 sq. ft.</td>
+                <td class="p-4 border-b border-accent-color/20 text-center">Request for Pricing</td>
+              </tr>
+              <tr class="pricing-table-row">
+                <td class="p-4 border-b border-accent-color/20 text-center">
+                  <h3 class="font-semibold text-lg text-accent-color">3 BHK Grand</h3>
+                </td>
+                <td class="p-4 border-b border-accent-color/20 text-center">1766 sq. ft.</td>
+                <td class="p-4 border-b border-accent-color/20 text-center">Request for Pricing</td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+        <div class="mt-8 text-center">
+            <button style="background-color:white; color:black" id="price-breakup-btn" class="bg-accent-color text-primary-color font-bold text-lg py-3 px-8 rounded-lg shadow-xl transition-all duration-300 hover:bg-opacity-80 hover:shadow-2xl hover:scale-105 contact-cta">
+              Get Price Breakup
+            </button>
+        </div>
+      </section>
+
+      <!-- Amenities Section -->
+      <section id="amenities" class="py-16 section-fade-in">
+        <h2 class="text-4xl font-bold text-center text-accent-color">Amenities </h2>
+        <p class="mt-4 text-center max-w-2xl mx-auto text-lg leading-relaxed text-secondary-color">
+          Thoughtfully curated amenities for leisure, fitness, and community living.
+        </p>
+        <div class="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+            <!-- Amenity Card 1 -->
+            <div class="bg-primary-color p-6 rounded-xl shadow-lg border-2 border-accent-color/30 flex flex-col items-center text-center transform transition-transform duration-300 hover:scale-105">
+                <img src="image/cafe.PNG" alt="Gym icon" class="w-16 h-16 mb-4">
+                <h3 class="text-lg font-semibold">Cafe</h3>
+            </div>
+            <!-- Amenity Card 2 -->
+            <div class="bg-primary-color p-6 rounded-xl shadow-lg border-2 border-accent-color/30 flex flex-col items-center text-center transform transition-transform duration-300 hover:scale-105">
+                <img src="image/swimming.PNG" alt="Swimming pool icon" class="w-16 h-16 mb-4">
+                <h3 class="text-lg font-semibold">Swimming</h3>
+            </div>
+            <!-- Amenity Card 3 -->
+            <div class="bg-primary-color p-6 rounded-xl shadow-lg border-2 border-accent-color/30 flex flex-col items-center text-center transform transition-transform duration-300 hover:scale-105">
+                <img src="image/yoga.PNG" alt="Yoga pavilion icon" class="w-16 h-16 mb-4">
+                <h3 class="text-lg font-semibold">Yoga</h3>
+            </div>
+            <!-- Amenity Card 4 -->
+            <div class="bg-primary-color p-6 rounded-xl shadow-lg border-2 border-accent-color/30 flex flex-col items-center text-center transform transition-transform duration-300 hover:scale-105">
+                <img src="image/football.PNG" alt="Mini theater icon" class="w-16 h-16 mb-4">
+                <h3 class="text-lg font-semibold">Football</h3>
+            </div>
+            <!-- Amenity Card 5 -->
+            <div class="bg-primary-color p-6 rounded-xl shadow-lg border-2 border-accent-color/30 flex flex-col items-center text-center transform transition-transform duration-300 hover:scale-105">
+                <img src="image/gym.PNG" alt="Kids play area icon" class="w-16 h-16 mb-4">
+                <h3 class="text-lg font-semibold">Gym</h3>
+            </div>
+            <!-- Amenity Card 6 -->
+            <div class="bg-primary-color p-6 rounded-xl shadow-lg border-2 border-accent-color/30 flex flex-col items-center text-center transform transition-transform duration-300 hover:scale-105">
+                <img src="image/kids play area.PNG" alt="Sauna and Spa icon" class="w-16 h-16 mb-4">
+                <h3 class="text-lg font-semibold">Kids Play Area</h3>
+            </div>
+            <!-- Amenity Card 7 -->
+            <div class="bg-primary-color p-6 rounded-xl shadow-lg border-2 border-accent-color/30 flex flex-col items-center text-center transform transition-transform duration-300 hover:scale-105">
+                <img src="image/indoor game.PNG" alt="Clubhouse icon" class="w-16 h-16 mb-4">
+                <h3 class="text-lg font-semibold">Indoor Games</h3>
+            </div>
+            <!-- Amenity Card 8 -->
+            <div class="bg-primary-color p-6 rounded-xl shadow-lg border-2 border-accent-color/30 flex flex-col items-center text-center transform transition-transform duration-300 hover:scale-105">
+                <img src="image/jocking.PNG" alt="24/7 security icon" class="w-16 h-16 mb-4">
+                <h3 class="text-lg font-semibold">Jocking</h3>
+            </div>
+        </div>
+      </section>
+
+      <!-- Project Highlights Section -->
+      <section id="project-highlights" class="py-16 section-fade-in">
+        <h2 class="text-4xl font-bold text-center text-accent-color">Project Highlights</h2>
+        <div class="mt-12 flex flex-col-reverse md:flex-row items-center gap-12">
+          <!-- Left Column: Video Section -->
+        
+
+<div class="md:w-1/2 w-full">
+    <div class="relative w-full h-80 rounded-xl overflow-hidden shadow-lg border-2 border-accent-color/30 flex items-center justify-center bg-gray-900">
+        <iframe 
+            class="absolute inset-0 w-full h-full"
+            src="https://www.youtube.com/embed/KI2LOLAXpzU?autoplay=0&controls=1&showinfo=0&rel=0" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+    </div>
+
+
+            <p class="mt-4 text-center text-lg text-secondary-color">Experience the lifestyle in our stunning video tour.</p>
+          </div>
+          <!-- Right Column: Highlight Points -->
+          <div class="md:w-1/2 w-full p-8 bg-primary-color rounded-xl shadow-lg border-2 border-accent-color/30">
+            <p class="text-lg leading-relaxed text-secondary-color mb-6">
+              Seamless Connectivity Meets Urban Convenience
+            </p>
+            <ul class="space-y-4 text-lg text-secondary-color">
+              <li class="flex items-start">
+                <span class="mr-2 text-accent-color font-bold">&bull;</span>
+                <div>
+                  <strong class="font-semibold text-secondary-color">Strategically located near NICE Junction, the project offers seamless, signal-free connectivity along the Hosur–Tumkur corridor.</strong>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 text-accent-color font-bold">&bull;</span>
+                <div>
+                  <strong class="font-semibold text-secondary-color">Well-connected by public transport, with a nearby bus terminal, railway station, and two metro stations, including the Challaghatta Metro just 5 minutes away.</strong>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 text-accent-color font-bold">&bull;</span>
+                <div>
+                  <strong class="font-semibold text-secondary-color">Only 5 minutes from the upgraded 10-lane Mysore Road Expressway, providing easy access to scenic hill stations across Tamil Nadu, Kerala, and Karnataka.</strong>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 text-accent-color font-bold">&bull;</span>
+                <div>
+                  <strong class="font-semibold text-secondary-color">Located just 1 km from Raja Rajeshwari Medical College, ensuring quick access to healthcare facilities.
+Close to prominent IT and industrial hubs, including Global Tech Village, Bannerghatta Road, Electronic City, and Bidadi..</strong>
+                </div>
+              </li>
+            </ul>
+            <button style="background-color:white; color:black" class="mt-6 bg-accent-color text-primary-color font-bold py-3 px-6 rounded-lg w-full transition-all duration-300 hover:bg-opacity-80 hover:shadow-xl hover:scale-105 contact-cta">
+              Download Full Brochure
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Floor Plan Section -->
+      <section id="floor-plans" class="py-16 section-fade-in">
+        <h2 class="text-4xl font-bold text-center text-accent-color">Floor Plan</h2>
+        <div class="mt-12 flex flex-col md:flex-row items-center justify-between gap-12">
+            <!-- Left Column: Text Content -->
+            <div class="md:w-1/2 w-full text-center md:text-left">
+                <p class="text-lg text-accent-color font-medium">Your Home Plan</p>
+                <p style="text-align: justify;" class="mt-4 text-lg leading-relaxed text-secondary-color">
+                    Discover the perfect blend of comfort, style, and functionality at Provident Sunworth City. Spread across a sprawling 60-acre township 
+                    near Mysore Road–NICE Junction, each home is crafted to offer spacious, well-planned layouts with 2 & 3 BHK configurations.
+
+Located just minutes from the upcoming Challaghatta Metro Station, the township ensures seamless connectivity while offering a serene escape from the
+ city buzz. Over 19 acres of lush greenery and more than 7,000 trees create a refreshing environment for residents, promoting wellness and tranquility.
+
+Part of the prestigious Provident Equinox development cluster, Provident Sunworth City combines community living, modern amenities, and strategic 
+connectivity to deliver a truly holistic urban lifestyle. Every floor plan is designed to maximize space, natural light, and ventilation, ensuring that 
+your home is as functional as it is beautiful.
+                </p>
+                <ul class="mt-6 space-y-3 text-lg leading-relaxed text-secondary-color list-disc list-inside">
+                    <li>Part of a 60 Acre Integrated Lifestyle Township</li>
+                    <li>2 & 3 BHK apartments</li>
+                    <li>Apartments constructed using MIVAN construction technology</li>
+                    <li>19 acres of dedicated greenery including 7000+ trees</li>
+                    <li>50+ amenities for fitness and recreation</li>
+                    <li>Near Challaghatta Metro Station</li>
+                </ul>
+                <button style="background-color:white; color:black" class="mt-6 bg-accent-color text-primary-color font-medium py-3 px-6 rounded-lg w-full md:w-auto transition-all duration-300 hover:bg-opacity-80 hover:shadow-xl hover:scale-105 contact-cta">
+                    Schedule Visit Now
+                </button>
+            </div>
+            <!-- Right Column: Images with Buttons -->
+            <div class="md:w-1/2 w-full relative flex flex-col items-center">
+                <div class="relative w-full p-4 rounded-xl shadow-lg border-2 border-accent-color/30 transform -rotate-3 transition-transform duration-300 hover:rotate-0">
+                    <img src="image/floor1.webp" alt="A detailed layout of a section of the property" style="filter: blur(4px);" class="w-full rounded-lg h-auto object-cover">
+                    <button style="background-color:white; color:black" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-accent-color text-primary-color font-bold py-3 px-8 rounded-full shadow-lg opacity-90 transition-all duration-300 hover:opacity-100 hover:bg-opacity-80 contact-cta">
+                        Click Me
+                    </button>
+                </div>
+                <div class="relative w-full p-4 rounded-xl shadow-lg border-2 border-accent-color/30 mt-8 transform rotate-3 transition-transform duration-300 hover:rotate-0">
+                    <img src="image/floor2.webp" alt="A detailed layout of a section of the property" style="filter: blur(4px);" class="w-full rounded-lg h-auto object-cover">
+                    <button style="background-color:white; color:black" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-accent-color text-primary-color font-bold py-3 px-8 rounded-full shadow-lg opacity-90 transition-all duration-300 hover:opacity-100 hover:bg-opacity-80 contact-cta">
+                        Click Me
+                    </button>
+                </div>
+            </div>
+        </div>
+      </section>
+
+      <!-- Gallery Section - Advanced Carousel -->
+      <section id="gallery" class="py-16 section-fade-in overflow-hidden">
+        <h2 class="text-4xl font-bold text-center text-accent-color">Property Gallery</h2>
+        <div class="mt-12 flex flex-nowrap animate-scroll gap-4">
+          <!-- Images - Duplicated to create a seamless loop -->
+          <div class="flex-none w-full md:w-1/4 flex-grow-0 flex-shrink-0">
+            <img src="image/g1.jpg" alt="A luxurious, modern lobby with high ceilings and premium finishes." class="w-full h-auto object-cover rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+          </div>
+          <div class="flex-none w-full md:w-1/4 flex-grow-0 flex-shrink-0">
+            <img src="image/g2.jpg" alt="A stunning rooftop terrace with panoramic city views and a seating area." class="w-full h-auto object-cover rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+          </div>
+          <div class="flex-none w-full md:w-1/4 flex-grow-0 flex-shrink-0">
+            <img src="image/g3.jpg" alt="A beautifully designed infinity pool with a view of the cityscape." class="w-full h-auto object-cover rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+          </div>
+          <div class="flex-none w-full md:w-1/4 flex-grow-0 flex-shrink-0">
+            <img src="image/g4.jpg" alt="A state-of-the-art private gym with modern equipment." class="w-full h-auto object-cover rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+          </div>
+          <!-- Duplicated Images -->
+          <div class="flex-none w-full md:w-1/4 flex-grow-0 flex-shrink-0">
+            <img src="image/g5.jpg" alt="A luxurious, modern lobby with high ceilings and premium finishes." class="w-full h-auto object-cover rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+          </div>
+          <div class="flex-none w-full md:w-1/4 flex-grow-0 flex-shrink-0">
+            <img src="image/g6.jpg" alt="A stunning rooftop terrace with panoramic city views and a seating area." class="w-full h-auto object-cover rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+          </div>
+        </div>
+      </section>
+
+      <!-- Location Section -->
+      <section id="location" class="py-16 section-fade-in">
+        <h2 class="text-4xl font-bold text-center text-accent-color">Location Highlights</h2>
+        <div class="mt-8 flex flex-col md:flex-row items-center gap-8">
+            <div class="md:w-1/2 w-full">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.320718894768!2d77.46869339999999!3d12.887087000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae398a15854881%3A0xd22d0d3f18b5ebb4!2sProvident%20Sunworth%20City!5e0!3m2!1sen!2sin!4v1757504629101!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="md:w-1/2 w-full text-secondary-color">
+                <ul class="space-y-4">
+                    <li><strong>NICE Junction – seamless Hosur & Tumkur corridor connectivity</strong> </li>
+                    <li><strong>Challaghatta Metro Station – </strong> just 5 minutes away</li>
+                    <li><strong>Mysore Road Expressway – </strong> 10-lane connectivity to hill stations across TN, KL, and KA</li>
+                    
+                    <li><strong>Raja Rajeshwari Medical College – </strong> only 1 km distance</li>
+                    <li><strong>IT & Industrial Hubs – </strong> Global Tech Village, Bannerghatta Road, Electronic City, Bidadi</li>
+                    <li><strong>Everyday Essentials – </strong> Top schools, colleges, hospitals & malls within 5 km</li> 
+                </ul>
+            </div>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section id="faq" class="py-16 section-fade-in">
+        <h2 class="text-4xl font-bold text-center text-accent-color">Frequently Asked Questions</h2>
+        <div class="mt-8 max-w-3xl mx-auto">
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-ans-1">
+              Where is Provident Sunworth City located?
+              <span class="faq-icon transition-transform transform">+</span>
+            </button>
+            <div class="faq-answer mt-2" id="faq-ans-1">
+              <p class="text-secondary-color/80 leading-relaxed">
+                Provident Sunworth City is located off Mysore Road, near the NICE Junction in Bengaluru. 
+                It is close to the Challaghatta Metro Station and provides a signal-free corridor to major parts of the city.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-ans-2">
+             What types of units are available in Provident Sunworth City?
+              <span class="faq-icon transition-transform transform">+</span>
+            </button>
+            <div class="faq-answer mt-2" id="faq-ans-2">
+              <p class="text-secondary-color/80 leading-relaxed">
+                The project offers a variety of 2 BHK and 3 BHK apartments. 
+                Each unit is designed with modern amenities and spacious layouts to cater to different family sizes and preferences.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-ans-3">
+              Is Provident Sunworth City a ready-to-move-in project?
+              <span class="faq-icon transition-transform transform">+</span>
+            </button>
+            <div class="faq-answer mt-2" id="faq-ans-3">
+              <p class="text-secondary-color/80 leading-relaxed">
+                The project has multiple phases. Some phases are ready-to-move-in, while others are under construction with expected possession in the coming years.
+                 It's best to check with the sales team for the current status of each phase.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-ans-4">
+              What amenities are available at Provident Sunworth City?
+              <span class="faq-icon transition-transform transform">+</span>
+            </button>
+            <div class="faq-answer mt-2" id="faq-ans-4">
+              <p class="text-secondary-color/80 leading-relaxed">
+                The project offers over 50 lifestyle amenities, including a clubhouse, swimming pool, gymnasium, 
+                sports courts (like cricket, basketball, and tennis), a dedicated kids' play area, and landscaped gardens. It also has a 
+                state-of-the-art school (Chrysalis High School) and retail/commercial spaces within the township.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-ans-5">
+              Is it worth investing in an apartment at Provident Sunworth City?
+              <span class="faq-icon transition-transform transform">+</span>
+            </button>
+            <div class="faq-answer mt-2" id="faq-ans-5">
+              <p class="text-secondary-color/80 leading-relaxed">
+                Yes, Provident Sunworth City is considered a good investment due to its strategic location 
+                near major IT and manufacturing hubs, excellent connectivity, and a wide range of amenities. The brand name of Provident 
+                Sunworth Housing, a subsidiary of Puravankara Group, also adds to its credibility.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Us Section -->
+      <section id="contact-us" class="container mx-auto px-4 py-16 section-fade-in">
+          <h2 class="text-4xl font-bold text-center text-accent-color mb-8">Contact Us</h2>
+          <p class="text-center max-w-2xl mx-auto text-lg leading-relaxed text-secondary-color mb-8">
+              Our team is ready to answer your questions and guide you through the process. Please fill out the form below to connect with us.
+          </p>
+          <div class="max-w-2xl mx-auto bg-primary-color p-8 rounded-xl shadow-lg border-2 border-accent-color/30">
+              <form id="contact-form1" class="space-y-4">
+                  <div>
+                      <label for="onpage-name" class="block text-sm font-medium text-secondary-color">Full Name</label>
+                      <input type="text" id="onpage-name" name="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-3 bg-gray-800 text-white focus:border-accent-color focus:ring focus:ring-accent-color focus:ring-opacity-50" required aria-required="true">
+                  </div>
+                  <div>
+                      <label for="onpage-email" class="block text-sm font-medium text-secondary-color">Email Address</label>
+                      <input type="email" id="onpage-email" name="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-3 bg-gray-800 text-white focus:border-accent-color focus:ring focus:ring-accent-color focus:ring-opacity-50" required aria-required="true">
+                  </div>
+                  <div>
+                      <label for="onpage-phone" class="block text-sm font-medium text-secondary-color">Phone Number</label>
+                      <input type="tel" id="onpage-phone" required name="mobile" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-3 bg-gray-800 text-white focus:border-accent-color focus:ring focus:ring-accent-color focus:ring-opacity-50">
+                  </div>
+                  <div>
+                      <label for="onpage-message" class="block text-sm font-medium text-secondary-color">Message</label>
+                      <textarea id="onpage-message" name="message" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-3 bg-gray-800 text-white focus:border-accent-color focus:ring focus:ring-accent-color focus:ring-opacity-50"></textarea>
+                  </div>
+                  <button id="contact_form_btn1" style="background-color:white; color:black"  class="w-full bg-accent-color text-primary-color font-bold py-3 px-6 rounded-lg shadow-lg transition-all duration-300 hover:bg-opacity-80 hover:shadow-2xl hover:scale-105">
+                      Send Message
+                  </button>
+                  <div id="success_message_col" class='mt-2'>
+                       
+                  </div>
+                  <div id="error_message" class='error'>
+                     
+                  </div>
+              </form>
+          </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary-color py-8 px-4 text-center border-t border-accent-color/30">
+      <div class="mb-4">
+        <img src="image/logo.png" alt="The Pinnacle Residences Logo" class="h-8 mx-auto">
+      </div>
+      <p  style="max-width: 85%;" class="text-xs text-secondary-color/60 max-w-2xl mx-auto">Disclaimer : The information provided on this website is intended 
+      exclusively for informational purposes and should not be construed as an offer of services. This site is managed by a RERA authorized affiliate partner / real estate agent (for multiple real estate developers) namely Propertypistol Realty Private Limited. The pricing information presented on this website is subject to alteration without advance notification, and the assurance of property availability cannot be guaranteed. The images showcased on this website are for representational purposes only and may not accurately reflect the actual properties. We may share your data with karnataka Real Estate Regulatory Authority (RERA) registered Developers for further processing as necessary. Additionally, we may send updates and information to the mobile number or email address registered with us. All rights reserved. The content, design, and information on this website are protected by copyright and other intellectual property rights. Any unauthorized use or reproduction of the content may violate applicable laws. For accurate and up-to-date information regarding services, pricing, availability, and any other details, 
+      it is recommended to contact us directly through the provided contact information on this website. Thank you for visiting our website.</p>
+      <p class="mt-4">&copy;2025 Home Aura Realtor. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Contact Modal Pop-up -->
+    <div id="contact-modal-overlay" class="contact-modal-overlay">
+      <div class="contact-modal p-8 rounded-xl shadow-2xl">
+        <button id="modal-close-btn" class="absolute top-4 right-4 text-secondary-color hover:text-accent-color text-2xl font-bold">&times;</button>
+        <h2 class="text-2xl font-bold text-center text-accent-color mb-4">Contact Us</h2>
+        <p class="text-center text-secondary-color mb-6">Provident Sunworth City welcomes you with 2 BHK & # BHK homes.</p>
+        <form id="contact-form2" class="space-y-4">
+          <div>
+            <label for="name" class="block text-sm font-medium text-secondary-color">Full Name</label>
+            <input type="text" id="name" name="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-3 bg-gray-800 text-white focus:border-accent-color focus:ring focus:ring-accent-color focus:ring-opacity-50" required aria-required="true" aria-labelledby="name-label">
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-secondary-color">Email Address</label>
+            <input type="email" id="email" name="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-3 bg-gray-800 text-white focus:border-accent-color focus:ring focus:ring-accent-color focus:ring-opacity-50" required aria-required="true" aria-labelledby="email-label">
+          </div>
+          <div>
+            <label for="phone" class="block text-sm font-medium text-secondary-color">Phone Number</label>
+            <input type="tel" id="phone" required name="mobile" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-3 bg-gray-800 text-white focus:border-accent-color focus:ring focus:ring-accent-color focus:ring-opacity-50" aria-labelledby="phone-label">
+          </div>
+          <button id="contact_form_btn2" style="background-color:white; color:black" class="w-full bg-accent-color text-primary-color font-bold py-3 px-6 rounded-lg shadow-lg transition-all duration-300 hover:bg-opacity-80 hover:shadow-2xl hover:scale-105">
+            Submit Request
+          </button>
+
+          <div id="success_message_col2" class='mt-2'>
+                       
+          </div>
+          <div id="error_message2" class='error'>
+             
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Custom Message Box -->
+    <div id="message-box-overlay" class="message-box-overlay">
+        <div class="message-box p-8 rounded-xl text-center">
+            <h3 id="message-box-title" class="text-2xl font-bold mb-4"></h3>
+            <p id="message-box-text" class="text-secondary-color mb-6"></p>
+            <button id="message-box-close-btn" class="bg-accent-color text-primary-color font-bold py-2 px-6 rounded-lg transition-all duration-300 hover:bg-opacity-80">Close</button>
+        </div>
+    </div>
+
+    <!-- Floating Buttons -->
+    <div class="floating-btn-container">
+        <!-- WhatsApp Button -->
+        <a href="https://wa.me/919880779843" class="bg-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110" aria-label="Chat with us on WhatsApp">
+            <img src="image/wa.jpg" alt="WhatsApp" class="h-6 w-6">
+        </a>
+        <!-- Scroll to Top Button -->
+        <button id="top-btn" class="bg-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110" aria-label="Scroll to top">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+            </svg>
+        </button>
+    </div>
+
+    <script>
+      // --- Helper Functions ---
+      function showMessageBox(title, message) {
+        const overlay = document.getElementById('message-box-overlay');
+        document.getElementById('message-box-title').textContent = title;
+        document.getElementById('message-box-text').textContent = message;
+        overlay.classList.add('show');
+      }
+
+      function hideMessageBox() {
+        document.getElementById('message-box-overlay').classList.remove('show');
+      }
+
+      // --- Main Script ---
+      document.addEventListener('DOMContentLoaded', () => {
+        const contactModalOverlay = document.getElementById('contact-modal-overlay');
+        const heroCtaBtn = document.getElementById('hero-cta-btn');
+        const navContactBtn = document.getElementById('nav-contact-btn');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const contactForm = document.getElementById('contact-form');
+        const ctaButtons = document.querySelectorAll('.contact-cta');
+        const messageBoxCloseBtn = document.getElementById('message-box-close-btn');
+        const contactUsForm = document.getElementById('contact-us-form');
+        const priceBreakupBtn = document.getElementById('price-breakup-btn');
+        const topBtn = document.getElementById('top-btn');
+        const faqQuestions = document.querySelectorAll('.faq-question');
+
+
+        // Show modal when CTA buttons are clicked
+        function showContactModal() {
+          contactModalOverlay.classList.add('show');
+          document.body.style.overflow = 'hidden';
+        }
+
+        heroCtaBtn.addEventListener('click', showContactModal);
+        navContactBtn.addEventListener('click', showContactModal);
+        ctaButtons.forEach(btn => btn.addEventListener('click', showContactModal));
+        priceBreakupBtn.addEventListener('click', showContactModal);
+
+        // Hide modal
+        function hideContactModal() {
+          contactModalOverlay.classList.remove('show');
+          document.body.style.overflow = '';
+        }
+
+        modalCloseBtn.addEventListener('click', hideContactModal);
+        contactModalOverlay.addEventListener('click', (e) => {
+          if (e.target.id === 'contact-modal-overlay') {
+            hideContactModal();
+          }
+        });
+
+        // Form submission with client-side validation for the modal form
+        // contactForm.addEventListener('submit', (e) => {
+        //   e.preventDefault();
+        //   const name = document.getElementById('name').value;
+        //   const email = document.getElementById('email').value;
+
+        //   if (!name || !email) {
+        //     showMessageBox('Validation Error', 'Please fill out all required fields.');
+        //     return;
+        //   }
+          
+        //   if (!/\S+@\S+\.\S+/.test(email)) {
+        //     showMessageBox('Validation Error', 'Please enter a valid email address.');
+        //     return;
+        //   }
+
+        //   // Simulate form submission
+        //   console.log('Modal Form Submitted:', { name, email, phone: document.getElementById('phone').value });
+
+        //   hideContactModal();
+        //   showMessageBox('Thank You!', 'Your request has been submitted. A representative will contact you shortly.');
+
+        //   // Reset the form
+        //   contactForm.reset();
+        // });
+
+        // // Form submission with client-side validation for the on-page contact form
+        // contactUsForm.addEventListener('submit', (e) => {
+        //     e.preventDefault();
+        //     const name = document.getElementById('onpage-name').value;
+        //     const email = document.getElementById('onpage-email').value;
+        //     const message = document.getElementById('onpage-message').value;
+
+        //     if (!name || !email) {
+        //         showMessageBox('Validation Error', 'Please fill out all required fields.');
+        //         return;
+        //     }
+
+        //     if (!/\S+@\S+\.\S+/.test(email)) {
+        //         showMessageBox('Validation Error', 'Please enter a valid email address.');
+        //         return;
+        //     }
+
+        //     console.log('On-Page Form Submitted:', { name, email, phone: document.getElementById('onpage-phone').value, message });
+
+        //     showMessageBox('Thank You!', 'Your message has been sent. We will get back to you shortly.');
+
+        //     contactUsForm.reset();
+        // });
+
+        // Close message box
+        messageBoxCloseBtn.addEventListener('click', hideMessageBox);
+
+        // Add fade-in effect on scroll
+        const sections = document.querySelectorAll('.section-fade-in');
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1
+        });
+
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+
+        // Scroll to Top button functionality
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 200) {
+            topBtn.classList.add('show');
+          } else {
+            topBtn.classList.remove('show');
+          }
+        });
+
+        topBtn.addEventListener('click', () => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        });
+
+        // FAQ accordion functionality
+        faqQuestions.forEach(question => {
+          question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            const expanded = question.getAttribute('aria-expanded') === 'true' || false;
+            
+            question.setAttribute('aria-expanded', !expanded);
+            answer.classList.toggle('open');
+          });
+        });
+      });
+    </script>
+        <script src="assets/js/config.js"></script>
+        <script src="assets/js/contact.js"></script>
+</body>
+</html>
