@@ -198,18 +198,115 @@
       }
 
       /* Custom styles for the gallery carousel */
-      .carousel-container::-webkit-scrollbar {
-          height: 8px;
+      .carousel-container {
+          position: relative;
+          overflow: hidden;
+          cursor: grab;
+          user-select: none;
       }
 
-      .carousel-container::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 10px;
+      .carousel-container:active {
+          cursor: grabbing;
       }
 
-      .carousel-container::-webkit-scrollbar-thumb {
+      .carousel-track {
+          display: flex;
+          transition: transform 0.3s ease-out;
+          will-change: transform;
+      }
+
+      .carousel-track.dragging {
+          transition: none;
+      }
+
+      .carousel-slide {
+          flex: 0 0 auto;
+          margin-right: 1rem;
+      }
+
+      .carousel-nav-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(13, 26, 38, 0.8);
+          border: 2px solid var(--accent-color);
+          color: var(--accent-color);
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          z-index: 10;
+          backdrop-filter: blur(10px);
+      }
+
+      .carousel-nav-btn:hover {
           background: var(--accent-color);
-          border-radius: 10px;
+          color: var(--primary-color);
+          transform: translateY(-50%) scale(1.1);
+      }
+
+      .carousel-nav-btn.prev {
+          left: 1rem;
+      }
+
+      .carousel-nav-btn.next {
+          right: 1rem;
+      }
+
+      .carousel-dots {
+          display: flex;
+          justify-content: center;
+          gap: 0.5rem;
+          margin-top: 1.5rem;
+      }
+
+      .carousel-dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: rgba(228, 179, 99, 0.3);
+          cursor: pointer;
+          transition: all 0.3s ease;
+      }
+
+      .carousel-dot.active {
+          background: var(--accent-color);
+          transform: scale(1.2);
+      }
+
+      .carousel-dot:hover {
+          background: var(--accent-color);
+          transform: scale(1.1);
+      }
+
+      /* Responsive carousel styles */
+      @media (max-width: 768px) {
+          .carousel-nav-btn {
+              width: 40px;
+              height: 40px;
+              font-size: 14px;
+          }
+          
+          .carousel-nav-btn.prev {
+              left: 0.5rem;
+          }
+          
+          .carousel-nav-btn.next {
+              right: 0.5rem;
+          }
+      }
+
+      .gallery-image {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .gallery-image:hover {
+          transform: scale(1.05);
+          box-shadow: 0 20px 40px rgba(228, 179, 99, 0.3);
       }
 
       .play-button {
@@ -597,29 +694,58 @@ your home is as functional as it is beautiful.
         </div>
       </section>
 
-      <!-- Gallery Section - Advanced Carousel -->
-      <section id="gallery" class="py-16 section-fade-in overflow-hidden">
+      <!-- Gallery Section - Interactive Drag Carousel -->
+      <section id="gallery" class="py-16 section-fade-in">
         <h2 class="text-4xl font-bold text-center text-accent-color">Property Gallery</h2>
-        <div class="mt-12 flex flex-nowrap animate-scroll gap-4">
-          <!-- Images - Duplicated to create a seamless loop -->
-          <div class="flex-none w-full md:w-1/4 flex-grow-0 flex-shrink-0">
-            <img src="image/g1.jpg" alt="A luxurious, modern lobby with high ceilings and premium finishes." class="w-full h-auto object-cover rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+        <p class="mt-4 text-center text-lg text-secondary-color">Drag to explore our stunning property images</p>
+        
+        <div class="mt-12 relative">
+          <!-- Carousel Container -->
+          <div class="carousel-container" id="galleryCarousel">
+            <!-- Navigation Buttons -->
+            <button class="carousel-nav-btn prev" id="prevBtn" aria-label="Previous image">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15,18 9,12 15,6"></polyline>
+              </svg>
+            </button>
+            <button class="carousel-nav-btn next" id="nextBtn" aria-label="Next image">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9,18 15,12 9,6"></polyline>
+              </svg>
+            </button>
+            
+            <!-- Carousel Track -->
+            <div class="carousel-track" id="carouselTrack">
+              <div class="carousel-slide w-full sm:w-80 md:w-96 lg:w-80 xl:w-96">
+                <img src="image/g1.jpg" alt="Luxurious modern lobby with high ceilings and premium finishes" class="gallery-image w-full h-64 sm:h-72 md:h-80 object-cover rounded-xl shadow-lg">
+              </div>
+              <div class="carousel-slide w-full sm:w-80 md:w-96 lg:w-80 xl:w-96">
+                <img src="image/g2.jpg" alt="Stunning rooftop terrace with panoramic city views" class="gallery-image w-full h-64 sm:h-72 md:h-80 object-cover rounded-xl shadow-lg">
+              </div>
+              <div class="carousel-slide w-full sm:w-80 md:w-96 lg:w-80 xl:w-96">
+                <img src="image/g3.jpg" alt="Beautifully designed infinity pool with cityscape view" class="gallery-image w-full h-64 sm:h-72 md:h-80 object-cover rounded-xl shadow-lg">
+              </div>
+              <div class="carousel-slide w-full sm:w-80 md:w-96 lg:w-80 xl:w-96">
+                <img src="image/g4.jpg" alt="State-of-the-art private gym with modern equipment" class="gallery-image w-full h-64 sm:h-72 md:h-80 object-cover rounded-xl shadow-lg">
+              </div>
+              <div class="carousel-slide w-full sm:w-80 md:w-96 lg:w-80 xl:w-96">
+                <img src="image/g5.jpg" alt="Elegant residential interior with modern design" class="gallery-image w-full h-64 sm:h-72 md:h-80 object-cover rounded-xl shadow-lg">
+              </div>
+              <div class="carousel-slide w-full sm:w-80 md:w-96 lg:w-80 xl:w-96">
+                <img src="image/g6.jpg" alt="Premium amenities and recreational facilities" class="gallery-image w-full h-64 sm:h-72 md:h-80 object-cover rounded-xl shadow-lg">
+              </div>
+              <div class="carousel-slide w-full sm:w-80 md:w-96 lg:w-80 xl:w-96">
+                <img src="image/banner1.webp" alt="Exterior view of the property complex" class="gallery-image w-full h-64 sm:h-72 md:h-80 object-cover rounded-xl shadow-lg">
+              </div>
+              <div class="carousel-slide w-full sm:w-80 md:w-96 lg:w-80 xl:w-96">
+                <img src="image/about.webp" alt="Architectural design and landscaping" class="gallery-image w-full h-64 sm:h-72 md:h-80 object-cover rounded-xl shadow-lg">
+              </div>
+            </div>
           </div>
-          <div class="flex-none w-full md:w-1/4 flex-grow-0 flex-shrink-0">
-            <img src="image/g2.jpg" alt="A stunning rooftop terrace with panoramic city views and a seating area." class="w-full h-auto object-cover rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
-          </div>
-          <div class="flex-none w-full md:w-1/4 flex-grow-0 flex-shrink-0">
-            <img src="image/g3.jpg" alt="A beautifully designed infinity pool with a view of the cityscape." class="w-full h-auto object-cover rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
-          </div>
-          <div class="flex-none w-full md:w-1/4 flex-grow-0 flex-shrink-0">
-            <img src="image/g4.jpg" alt="A state-of-the-art private gym with modern equipment." class="w-full h-auto object-cover rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
-          </div>
-          <!-- Duplicated Images -->
-          <div class="flex-none w-full md:w-1/4 flex-grow-0 flex-shrink-0">
-            <img src="image/g5.jpg" alt="A luxurious, modern lobby with high ceilings and premium finishes." class="w-full h-auto object-cover rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
-          </div>
-          <div class="flex-none w-full md:w-1/4 flex-grow-0 flex-shrink-0">
-            <img src="image/g6.jpg" alt="A stunning rooftop terrace with panoramic city views and a seating area." class="w-full h-auto object-cover rounded-xl shadow-lg transform transition-transform duration-300 hover:scale-105">
+          
+          <!-- Carousel Dots -->
+          <div class="carousel-dots" id="carouselDots">
+            <!-- Dots will be generated by JavaScript -->
           </div>
         </div>
       </section>
